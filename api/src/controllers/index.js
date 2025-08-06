@@ -144,5 +144,21 @@ exports.setRoutes = (app, db) => {
         res.status(500).json({ error: err.message });
       }
     });
+
+//Chiru's trial
+    app.get('/api/stocks/:id', async(req, res)=>{
+      const stockId = req.params.id;
+      try{
+        const[rows] =await db.query('SELECT * from stockdata WHERE id = ?', [stockId]);
+        if (rows.length == 0){
+          return res.status(404).json({ error : 'Stock Not Found'});
+        }
+        const stock =rows[0];
+        res.json(stock);
+      }
+      catch(err){
+        res.status(500).json({error: err.message});
+      }
+    })
   };
    
